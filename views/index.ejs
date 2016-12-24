@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Hello Wellcome ChatPlay</title>
+    <link rel="stylesheet" type="text/css" href="./style/style.css" />
+    <script src="./scripts/jquery-1.11.1.js"></script>    
+    <script>
+      $(document).ready(function(){
+        $('form').submit(function(){
+           
+          });
+    });
+    </script>
+  </head>
+  <body id="bdBegin">
+    <div>
+        <form action="" method="post">
+            What your Name?<br/>
+            <input name="user" id="user" autocomplete="off" /><br/>
+            <input type="hidden" name="key" id="key" value="<%=key %>"/>
+            <button>Start</button>
+        </form>
+    </div>
+  </body>
+</html>
