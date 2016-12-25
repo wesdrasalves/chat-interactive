@@ -1,3 +1,9 @@
+/**
+ * 
+ * @type Module Main|Module server
+ * @author Wesdras Alves <wesdras.alves@gmail.com>
+ */
+
 var helper = require('./js/server.js');
 
 var express = require('express');
@@ -5,7 +11,6 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var bodyParser = require('body-parser');
-//var cookieParser = require('cookie-parser');
 var existsUser = false;
 var expressSession = require('express-session');
 
@@ -20,9 +25,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(expressSession({secret: 'Q3UBzdH9GEfiRCTKbi5MTPyChpzXLsTD',resave: true, saveUninitialized: true}));
 
+//Main function start, Method GET
 app.get('/', function(req, res){
     var key;
     
+    //Generate acess key (GUID) for a new user that is opening the first page
+    //The loop exists for generate keys exclusive
     do
     {
         key = helper.server.guid();
@@ -37,14 +45,17 @@ app.get('/', function(req, res){
         }
     }.start());
     
-
-    res.render('index',{key : helper.server.guid()});
+    //Rendering the page by passing the exclusive key 
+    res.render('index',{key : key});
 });
 
+//Acess after the user data fill, Method POST
 app.post('/', function(req, res){
     var person = {};
+    //I created other key more short for control the user in screen, case exist user name repeated
     var UID = (Math.floor(Math.random() * 0x1000)+1).toString(10) + '_';
 
+    //class of user in JSON for send to screen
     person = {
         key : req.body.key,
         userId : UID,
@@ -54,6 +65,7 @@ app.post('/', function(req, res){
         active : false
     };
    
+    //Check if exist a session created 
     if(!expressSession.chatRoom)
     {
         expressSession.chatRoom = {
@@ -76,10 +88,12 @@ app.post('/', function(req, res){
                         chatRoom : expressSession.chatRoom});
 });
 
+//Open connection with Socket for comunication with users and replicate sends for all
 io.on('connection', function(socket){
     socket.on(idRoom, function(data){
         if(data.type == 'object')
         {
+            
             for(var i = 0;i< expressSession.chatRoom.persons.length;i++)
             {
                 if(expressSession.chatRoom.persons[i].userId + 

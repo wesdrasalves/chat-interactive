@@ -1,6 +1,11 @@
-
-
-var personal = {
+/**
+ * Object of the person with the control of movement, 
+ * the construction of elements, changing of the sprite and talk.   
+ * @author Wesdras Alves <wesdras.alves@gmail.com>
+ * @version 1.0
+ * @type object person
+ */
+var person = {
         positionX : 0,
         positionY : 0,
         name : '',
@@ -12,10 +17,16 @@ var personal = {
         lineLeft: 3,
         lineUp: 1,
         moving : true,
+        /**
+         * Begin the 
+         * @param {type} pname - Id of the person for to be created at screen
+         * @param {type} px - Possition X of the person at screen
+         * @param {type} py - Possition Y of the person at screen
+         * @returns {person} 
+         */
         start : function(pname,px,py){
             var obj = this.create(pname,px,py);
-            
-            
+                        
             /*$.each(Object.getOwnPropertyNames(this.create(pname,px,py)),function(k,v)
             {
                 alert(v);
@@ -31,6 +42,13 @@ var personal = {
             //per.att("id","");            
             return this;
         },
+        /*
+         * @desc 
+         * @param {string} pname
+         * @param {string} px (Position X of person
+         * @param {string} py
+         * @returns {undefined}
+         */
         create : function(pname,px,py)
         {
             var obj = {};
@@ -55,6 +73,11 @@ var personal = {
             
             return obj;
         },
+        /**
+         * Function of the move controller of the person at screen
+         * @param {server} s
+         * @returns {Function {string,string,person} x,y,personSend }
+         */
         move : function(s)
         {
             return function(x,y,personSend){
@@ -65,6 +88,16 @@ var personal = {
                 s.sendObject(personSend);
             };
         },
+        /**
+         * Change the sprite image of the person at screen
+         * @param {type} lineSprite
+         * @returns {person.changeSprite.data}
+         *      data.id : key of user to object at screen
+         *      data.posX : position X of person at screen
+         *      data.posY : position Y of person at screen
+         *      data.spriteX : position X of the sprite image at screem
+         *      data.spriteY : position Y of the sprite image at screem
+         */
         changeSprite : function(lineSprite)
         {
             var px = $("#"+ this.id + " img").css("background-position-x").replace("px",'');
@@ -114,7 +147,12 @@ var personal = {
             if(pos < parseInt($("#chatRoom").css("height").replace('px',''))-35)
             p.getHtml.css("margin-top",pos +4);            
             return this.changeSprite(this.lineDown);
-        },        
+        },
+        /**
+         * Function for catch the pressed key 
+         * @param {person} p
+         * @returns {Function {eventKey} e}
+         */
         getKeyMove : function (p)
         {     
             return function(e){ 
@@ -124,26 +162,28 @@ var personal = {
                 if(this.moving)
                 {
                     this.moving = false;
-                    setTimeout(function() { personal.moving = true; }, 200);
+                    
+                    //Set var person.moving = true for that the system make a litlle delay at moving
+                    setTimeout(function() { person.moving = true; }, 200);
                     
                     x = p.getHtml.css("margin-top");
                     y = p.getHtml.css("margin-left");
 
                     switch(e.keyCode)
                     {
-                        //Left
+                        //Key ArrowLeft
                         case 37 :
                             this.move(x,y,p.toLeft(p));
                             break;
-                        //Up
+                        //Key ArrowUp
                         case 38 :
                             this.move(x,y,p.toUp(p));
                             break;
-                        //Right
+                        //Key ArrowRight
                         case 39 :
                             this.move(x,y,p.toRight(p));
                             break;
-                        //Down
+                        //Key ArrowDown
                         case 40 :
                             this.move(x,y,p.toDown(p));
                             break;                    
@@ -151,6 +191,11 @@ var personal = {
                 }
             };
         },
+        /**
+         * Function for send the message of person to the server
+         * @param {server} s
+         * @returns {Function({string} x - Text Message)}
+         */
         talk : function(s)
         {
             return function(x){

@@ -5,21 +5,21 @@
     <link rel="stylesheet" type="text/css" href="./style/style.css" />
     <script src="./scripts/jquery-1.11.1.js"></script>  
     <script src="./scripts/socket.io-1.2.0.js"></script>
-    <script src="./scripts/personal.js"></script>
+    <script src="./scripts/person.js"></script>
     <script src="./scripts/server.js"></script>    
     <script>
         $(document).ready(function(){
-            roomServer.start(personal.start('<%=person.userId + person.user%>','<%=person.posX%>','<%=person.posY%>'),
+            //Start person and server with the personId catcheded from main file
+            roomServer.start(person.start('<%=person.userId + person.user%>','<%=person.posX%>','<%=person.posY%>'),
             {
-                textData : $("#textMessage"),
                 chatRoom : $("#chatRoom"),
                 roomId : $("#roomId").val()
             });
             
-            $(window).keydown(function(x){ personal.getKeyMove(x);});
+            $(window).keydown(function(x){ person.getKeyMove(x);});
 
             $('form').submit(function(){
-                   personal.talk($("#textMessage").val());
+                   person.talk($("#textMessage").val());
                    $("#textMessage").val('');
                    return false;
             });  
@@ -35,14 +35,7 @@
           <div id="listUsers">
               <h1>Histórico de Mensagens</h1>\
               <div>
-                <ul>
-                    <% //for(var i=0; i< chatRoom.persons.length; i++) {%>
-                        <!--<li>
-                            <div id="nameUser"><% //=chatRoom.persons[i].user %></div>
-                            <div id="statusUser" class="<% //=chatRoom.persons[i].active?'userActive':'userInactive'; %>"></div>
-                            <input type="hidden" id="idUser" value="<% //=chatRoom.persons[i].key%>"/>                        
-                        </li>-->   
-                    <% //}%>    
+                <ul>                    
                 </ul>                  
               </div>
           </div>          

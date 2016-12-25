@@ -4,5 +4,7 @@
     "keywords": ["util", "functional", "server", "client", "browser"],
     "author": "wesdras",
     "contributors": [],
-    "dependencies": {}
+    "dependencies": {}, "scripts":{
+"start":"node main.js"}
+
 }
