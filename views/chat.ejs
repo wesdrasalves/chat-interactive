@@ -18,6 +18,10 @@
             
             $(window).keydown(function(x){ person.getKeyMove(x);});
 
+            window.onbeforeunload = function(){
+               alert('Do you really want to exit chatRoom.'); 
+            };
+            
             $('form').submit(function(){
                    person.talk($("#textMessage").val());
                    $("#textMessage").val('');
@@ -33,7 +37,7 @@
           <div id="chatRoom">
           </div>
           <div id="listUsers">
-              <h1>Histórico de Mensagens</h1>\
+              <h1>Histórico de Mensagens</h1>
               <div>
                 <ul>                    
                 </ul>                  

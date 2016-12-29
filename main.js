@@ -1,5 +1,5 @@
 /**
- * 
+ * A little application for the talk with moving of the avatars
  * @type Module Main|Module server
  * @author Wesdras Alves <wesdras.alves@gmail.com>
  */
@@ -88,7 +88,8 @@ app.post('/', function(req, res){
                         chatRoom : expressSession.chatRoom});
 });
 
-//Open connection with Socket for comunication with users and replicate sends for all
+//Open connection with Socket for comunication with users and replicate 
+//all the sends of chat for all the users
 io.on('connection', function(socket){
     socket.on(idRoom, function(data){
         if(data.type == 'object')
@@ -107,7 +108,12 @@ io.on('connection', function(socket){
         }
         io.emit(idRoom, data);
     });
+    socket.on('checkOnline', function(data){
+        
+    });
 });
+
+
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
